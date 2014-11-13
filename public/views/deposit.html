@@ -1,0 +1,42 @@
+<div class="container" >
+    <form name="depositForm" class="form-login form-wrapper form-narrow" ng-submit="doDeposit()" novalidate>
+        <h3 class="title-divider"><span>Deposit money to you account</span></h3>
+        <div ng-show="errors.length > 0">
+            <ul class="list-unstyled" ng-repeat="error in errors">
+                <li class="has-error">{{ error }}</li>
+            </ul>
+        </div>
+        <fieldset ng-disabled="isSubmitting" ng-hide="isSent">
+            <div class="form-group">
+                <input type="text" class="form-control" name="fidor_address" type="text" ng-model="quoteFields.fidor_address" placeholder="You Fidor email" required />
+            </div>
+
+            <div class="form-group">
+                <input type="text" class="form-control" name="ripple_address" type="text" ng-model="quoteFields.address" placeholder="You ripple address" required />
+            </div>
+
+            <div class="form-group">
+                <input type="text" class="form-control" ng-model="quoteFields.amount" placeholder="Amount" required />
+            </div>
+
+            <div class="form-group">
+                <select class="form-control">
+                    <option ng-model="quoteFields.currency">{{quoteFields.currency}}</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <button class="btn btn-primary" ng-disabled="quoteForm.$invalid" style="width: 100%">
+                    <span ng-show="isSubmitting">Sending payment ...</span>
+                    <span ng-hide="isSubmitting">Continue &gt;</span>
+                </button>
+            </div>
+        </fieldset>
+        <div ng-show="isSent">
+            <div>{{quoteFields.amount}} {{quoteFields.currency}} sent to {{quoteFields.address}}. Please check you wallet.</div>
+            <a class="btn btn-primary" ng-click="isSent = false">
+                <span >Send another</span>
+            </a>
+        </div>
+    </form>
+</div>

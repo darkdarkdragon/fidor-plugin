@@ -1,0 +1,36 @@
+{
+  "name": "gatewayd-fidor-plugin",
+  "version": "0.0.1",
+  "description": "A bridge in and out of Ripple via Fidor.de",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha -R spec/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/gatewayd/fidor-plugin.git"
+  },
+  "keywords": [
+    "gatewayd",
+    "astropay",
+    "banking"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gatewayd/Fidor-plugin/issues"
+  },
+  "homepage": "https://github.com/gatewayd/fidor-plugin",
+  "dependencies": {
+    "bluebird": "^2.3.2",
+    "crypto": "0.0.3",
+    "express": "^4.9.1",
+    "moment": "^2.8.3",
+    "node-uuid": "^1.4.1",
+    "qs": "^2.2.3",
+    "ripple-name": "^0.1.3",
+    "sql-mq-worker": "^1.0.3",
+    "superagent": "^0.18.2",
+    "validator": "^3.18.1"
+  }
+}
