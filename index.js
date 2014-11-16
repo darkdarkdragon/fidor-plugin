@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 var express = require('express');
 var OauthHandler       = require(__dirname + '/controllers/oauth.js');

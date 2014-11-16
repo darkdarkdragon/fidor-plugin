@@ -1,11 +1,13 @@
+'use strict';
+
 console.log('+++++++++++++++++++ fidor incoming start');
 
-const SqlMqWorker = require('sql-mq-worker');
-const gatewayd = require(process.env.GATEWAYD_PATH || __dirname+'/../../../');
+var SqlMqWorker = require('sql-mq-worker');
+var gatewayd = require(process.env.GATEWAYD_PATH || __dirname+'/../../../');
 
-const ExternalTransaction = gatewayd.data.models.externalTransactions;
-const GatewayTransaction = gatewayd.data.models.gatewayTransactions;
-const RippleTransaction = gatewayd.data.models.rippleTransactions;
+var ExternalTransaction = gatewayd.data.models.externalTransactions;
+var GatewayTransaction = gatewayd.data.models.gatewayTransactions;
+var RippleTransaction = gatewayd.data.models.rippleTransactions;
 
 console.log('+++++++++++++++++++ fidor incoming start');
 
@@ -55,14 +57,14 @@ var worker = new SqlMqWorker({
                       status: 'complete'
                     })
                       .complete(callback);
-                  })
+                  });
               })
               .error(callback);
-          })
+          });
       })
-      .error(function(error) {
+      .error(function() {
         deposit.updateAttributes({ status: 'failed' })
-          .complete(callback)
+          .complete(callback);
       });
   }
 });

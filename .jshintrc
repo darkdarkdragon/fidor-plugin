@@ -1,0 +1,38 @@
+{
+  "bitwise": true,
+  "camelcase": false,
+  "eqeqeq": true,
+  "immed": true,
+  "indent": 2,
+  "noarg": true,
+  "noempty": true,
+  "nonew": true,
+  "quotmark": true,
+  "undef": true,
+  "unused": "vars",
+  "trailing": true,
+  "maxparams": 4,
+  "maxdepth": 4,
+  "maxcomplexity": 6,
+  "white": false,
+  "sub": true,
+  "-W004": true,
+  "globalstrict": true,
+
+  "globals": {
+    "require": false,
+    "module": false,
+    "process": false,
+    "console": false,
+    "logger": false,
+    "nconf": false,
+    "exports": false,
+    "__dirname": false,
+    "it": false,
+    "describe": false,
+    "before": false,
+    "after": false,
+    "setTimeout": false
+  }
+}
+

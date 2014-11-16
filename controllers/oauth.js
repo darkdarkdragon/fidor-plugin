@@ -1,7 +1,6 @@
-"use strict";
+'use strict';
 
 var util        = require('util');
-var http        = require('http');
 var url         = require('url');
 var querystring = require('querystring');
 var uuid        = require('node-uuid');
@@ -16,12 +15,12 @@ function OauthHandler(options) {
 OauthHandler.prototype.ocode = function ocode(request, response) {
   var self = this;
   var u = url.parse(request.url);
-  var code = querystring.parse(u.query)["code"];
+  var code = querystring.parse(u.query)['code'];
   
   // if the request does not contain a ?code=adsfasdfasdf 
   // query, it's not valid.
   if (!code) {
-    response.writeHead(400, "Bad Request");
+    response.writeHead(400, 'Bad Request');
     response.end();
     return;
   }
@@ -34,7 +33,7 @@ OauthHandler.prototype.ocode = function ocode(request, response) {
 
     if (err || !oauth_data || !oauth_data.access_token) {
       console.log('______________________________________ 1 Bad Request');
-      response.writeHead(400, "Bad Request");
+      response.writeHead(400, 'Bad Request');
       response.end();
     }  else {
       self.dataStore[uid] = {
@@ -48,7 +47,7 @@ OauthHandler.prototype.ocode = function ocode(request, response) {
       superagent.get(get_user_url).end(function (err, account_res) {
         if (err || !account_res || !account_res.body || !account_res.body.email) {
           console.log('______________________________________ 2 Bad Request');
-          response.writeHead(400, "Bad Request");
+          response.writeHead(400, 'Bad Request');
           response.end();
         } else {
           console.log('______________________________________ 2');
@@ -58,14 +57,14 @@ OauthHandler.prototype.ocode = function ocode(request, response) {
           self.dataStore[uid].email = account.email;
           var redirUrl = '/fidor/#deposit?' + querystring.stringify({token: uid, email: account.email, expires_at: self.dataStore[uid].expires_at});
           //var redirUrl = '/fidor/#deposit?token=' + uid + '&' + ;
-          response.writeHead(307, {"location" : redirUrl});
+          response.writeHead(307, {'location' : redirUrl});
           response.end();
         }
       });
     }
-  }
+  };
 
-  var oauth_url = url.parse(this.config.apiUrl);
+  // var oauth_url = url.parse(this.config.apiUrl);
 
   // where to send the data ...
   /*
@@ -82,7 +81,7 @@ OauthHandler.prototype.ocode = function ocode(request, response) {
     code          : code,
     client_id     : this.config.clientId,
     client_secret : this.config.clientSecret
-  }
+  };
   //postData = querystring.stringify(postData);
 
   superagent.post(this.config.apiUrl + '/oauth/token').send(postData).end(cb);
@@ -124,6 +123,6 @@ OauthHandler.prototype.ocode = function ocode(request, response) {
   //   }
   // });
 */
-}
+};
 
 module.exports = OauthHandler;

@@ -1,11 +1,11 @@
-"use strict";
+'use strict';
 
+/* jshint -W079 */
 var Promise   = require('bluebird');
+/* jshint +W079 */
 var CURRENCY  = 'EUX';
 
 var superagent  = require('superagent');
-var url         = require('url')
-var querystring = require('querystring')
 var uuid        = require('node-uuid');
 
 function PaymentsController(options) {
@@ -16,12 +16,14 @@ function PaymentsController(options) {
 
 PaymentsController.prototype = {
 
+/* jshint -W074 */
   deposit: function (request, response) {
     console.log('----------- PaymentsController::deposit');
     var _this = this;
     var depositRequest = request.body;
     console.log(depositRequest);
 
+    
     if (!depositRequest.address || 
         !depositRequest.amount || isNaN(+depositRequest.amount) ||
         +depositRequest.amount <= 0 ||
@@ -31,7 +33,7 @@ PaymentsController.prototype = {
         !this.dataStore[depositRequest.code].access_token ||
         !depositRequest.fidor_address ||
         !depositRequest.currency) {
-      response.writeHead(400, "Bad Request");
+      response.writeHead(400, 'Bad Request');
       response.end();
       return;
     }
@@ -43,7 +45,7 @@ PaymentsController.prototype = {
     var fidor_transfer_external_uid = uuid.v4();
 
     var tx_url = this.config.apiUrl +
-               "/internal_transfers?access_token=" +
+               '/internal_transfers?access_token=' +
                this.dataStore[depositRequest.code].access_token;
     var it_cfg = {
       account_id     : this.dataStore[depositRequest.code].id, // sending account id
@@ -51,7 +53,7 @@ PaymentsController.prototype = {
       external_uid   : fidor_transfer_external_uid,
       receiver       : this.config.gatewayAccountId,
       subject        : 'deposit to Ripple Network'
-    }
+    };
 
     console.log('+++++++++++++++++ sending ');
     console.log(it_cfg);
@@ -81,7 +83,7 @@ PaymentsController.prototype = {
                 error: data.error
               });
           } else {
-            var transferState = data.state; 
+            //var transferState = data.state; 
             /// TODO check transferState. Fidor test api alwayes returning 'success'
 
             data.depositRequest = depositRequest;
@@ -108,6 +110,7 @@ PaymentsController.prototype = {
         }
     });
   },
+/* jshint +W074 */
 
   createGatewayPayment: function createGatewayPayment(bridgePayment) {
     var _this = this;
@@ -292,6 +295,6 @@ PaymentsController.prototype = {
   //         bridge_payment: bridgePayment
   //       });
   //   });
-}
+};
 
 module.exports = PaymentsController;

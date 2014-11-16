@@ -12,19 +12,24 @@
   },
   "keywords": [
     "gatewayd",
-    "astropay",
+    "fidor",
     "banking"
   ],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/gatewayd/Fidor-plugin/issues"
+    "url": "https://github.com/gatewayd/fidor-plugin/issues"
   },
   "homepage": "https://github.com/gatewayd/fidor-plugin",
   "dependencies": {
     "bluebird": "^2.3.2",
     "crypto": "0.0.3",
     "express": "^4.9.1",
+    "grunt": "^0.4.5",
+    "grunt-contrib-jshint": "^0.10.0",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-mocha-test": "^0.12.3",
+    "mocha": "^2.0.1",
     "moment": "^2.8.3",
     "node-uuid": "^1.4.1",
     "qs": "^2.2.3",
