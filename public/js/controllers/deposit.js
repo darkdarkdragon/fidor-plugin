@@ -9,8 +9,18 @@ angular.module('deposit', ['api'])
 
   console.log('----------------------------------');
   var searchObject = $location.search();
+  if (searchObject['email']) {
+    localStorage['fidoremail'] = searchObject['email'];
+  }
+  if (searchObject['expires_at']) {
+    localStorage['fidorexpiresat'] = searchObject['expires_at'];
+  }
+  if (localStorage['fidorexpiresat'] && localStorage['fidorexpiresat'] < new Date().getTime()) {
+    localStorage.removeItem('fidortoken');
+  }
   if (searchObject['token']) {
     localStorage['fidortoken'] = searchObject['token'];
+    $location.path('/');
   } else if (!localStorage['fidortoken']) {
     var porta = ':' + fidorConfig.port;
     if (fidorConfig.port == 80) porta = '';
@@ -20,32 +30,14 @@ angular.module('deposit', ['api'])
     window.location = oauth_url;  
   }
 
-/*
-  var cookie_token = getCookie(request, "oauth_token")
-  // if we don't have a token for this user already, redirect 
-  // the user to the OAuth server
-  if (!cookie_token) {
-    var oauth_url = fidor_config.fidor_api_url+"/oauth/authorize?client_id="+
-                    fidor_config.client_id+"&redirect_uri="+fidor_config.app_url+":"+
-                    fidor_config.app_port+"/code"
-    response.writeHead(307, {"location" : oauth_url})
-    response.end()
-    return
-  }
-*/
-
   $scope.errors = [];
-  //$rootScope.
-  // $rootScope.fidor = {};
-  // $rootScope.fidor.source_address = {};
 
   $rootScope.quoteFields = {
     address: null,
     amount: null,
-    fidor_address: null,
+    fidor_address: localStorage['fidoremail'],
     currency: 'EUX'
   };
-
 
   $scope.isSubmitting = false;
   $scope.isSent = false;

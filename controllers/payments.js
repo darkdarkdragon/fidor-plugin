@@ -11,6 +11,7 @@ var uuid        = require('node-uuid');
 function PaymentsController(options) {
   this.gatewayd = options.gatewayd;
   this.config = this.gatewayd.config.get('FIDOR');
+  this.dataStore = options.dataStore;
 }
 
 PaymentsController.prototype = {
@@ -23,8 +24,11 @@ PaymentsController.prototype = {
 
     if (!depositRequest.address || 
         !depositRequest.amount || isNaN(+depositRequest.amount) ||
+        +depositRequest.amount <= 0 ||
         !depositRequest.fidor_address || 
         !depositRequest.code || 
+        !this.dataStore[depositRequest.code] ||
+        !this.dataStore[depositRequest.code].access_token ||
         !depositRequest.fidor_address ||
         !depositRequest.currency) {
       response.writeHead(400, "Bad Request");
@@ -40,15 +44,16 @@ PaymentsController.prototype = {
 
     var tx_url = this.config.apiUrl +
                "/internal_transfers?access_token=" +
-               depositRequest.code;
+               this.dataStore[depositRequest.code].access_token;
     var it_cfg = {
-      account_id     : 34, // sending account - just hardcode for now
+      account_id     : this.dataStore[depositRequest.code].id, // sending account id
       amount         : depositRequest.amount,
       external_uid   : fidor_transfer_external_uid,
       receiver       : this.config.gatewayAccountId,
       subject        : 'deposit to Ripple Network'
     }
 
+    console.log('+++++++++++++++++ sending ');
     console.log(it_cfg);
     superagent.post(tx_url)
       .send(it_cfg)
