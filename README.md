@@ -24,3 +24,16 @@ Plugin for fidor.de api.
       //gatewayd.processes.add(fidorPlugin.processes.outToAstropay);
     }
 
+
+## Config
+
+Config example (in gatewayd/config/config.json)
+
+
+    "FIDOR" : {
+      "apiUrl" : "http://aps.test.fidor.de",
+      "oauthUrl" : "http://aps.test.fidor.de/oauth",
+      "clientId" : "0498f82aa89bd9fd",
+      "clientSecret" : "88dece6b158944f936ed088cab572378",
+      "gatewayAccountId" : "ripplegateway@fidor.de"
+    }
