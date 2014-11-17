@@ -23,18 +23,46 @@ PaymentsController.prototype = {
     var depositRequest = request.body;
     console.log(depositRequest);
 
-    
-    if (!depositRequest.address || 
-        !depositRequest.amount || isNaN(+depositRequest.amount) ||
-        +depositRequest.amount <= 0 ||
-        !depositRequest.fidor_address || 
-        !depositRequest.code || 
-        !this.dataStore[depositRequest.code] ||
-        !this.dataStore[depositRequest.code].access_token ||
-        !depositRequest.fidor_address ||
-        !depositRequest.currency) {
+    function retErr(message) {
       response.writeHead(400, 'Bad Request');
-      response.end();
+      response.send({
+              success: false,
+              error: { 
+                message: message
+              }
+            });
+    }
+    
+    if (!depositRequest.address) return retErr('Address not specified'); 
+
+    if (!depositRequest.amount || isNaN(+depositRequest.amount) ||
+        +depositRequest.amount <= 0 
+      )  {
+      retErr('amount must be greater then zero'); 
+      return;
+    }
+
+    if (!depositRequest.code || 
+        !this.dataStore[depositRequest.code] ||
+        !this.dataStore[depositRequest.code].access_token
+        ) {
+      response.send(401);
+      return;
+    }
+
+    if (!depositRequest.fidor_address || 
+        !depositRequest.currency ||
+        depositRequest.currency !== CURRENCY) {
+      console.error('Bad Request ');
+      console.log(depositRequest);
+      console.log(this.dataStore[depositRequest.code]);
+      response.writeHead(400, 'Bad Request');
+      response.send({
+              success: false,
+              error: {
+                message: 'Error!'
+              }
+            });
       return;
     }
 
@@ -63,8 +91,7 @@ PaymentsController.prototype = {
         if (err) {
           console.log('Error:');
           console.log(err);
-          response.status(500)
-            .send({
+          response.send(500, {
               success: false,
               error: err
             });
@@ -77,8 +104,7 @@ PaymentsController.prototype = {
             if (data.error.errors) {
               console.log(data.error.errors);
             }
-            response.status(500)
-              .send({
+            response.send(500, {
                 success: false,
                 error: data.error
               });

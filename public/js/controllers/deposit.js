@@ -7,6 +7,15 @@ angular.module('deposit', ['api'])
                                  function ($scope, $location, $rootScope, fidorConfig, $api)
 {
 
+  function gotoOAuth() {
+    var porta = ':' + fidorConfig.port;
+    if (fidorConfig.port == 80) porta = '';
+    var oauth_url = fidorConfig.apiUrl + "/oauth/authorize?client_id=" +
+                    fidorConfig.clientId + "&redirect_uri=" + fidorConfig.appUrl + porta +
+                    "/fidor/code";
+    window.location = oauth_url;  
+  }
+
   console.log('----------------------------------');
   var searchObject = $location.search();
   if (searchObject['email']) {
@@ -22,12 +31,7 @@ angular.module('deposit', ['api'])
     localStorage['fidortoken'] = searchObject['token'];
     $location.path('/');
   } else if (!localStorage['fidortoken']) {
-    var porta = ':' + fidorConfig.port;
-    if (fidorConfig.port == 80) porta = '';
-    var oauth_url = fidorConfig.apiUrl + "/oauth/authorize?client_id=" +
-                    fidorConfig.clientId + "&redirect_uri=" + fidorConfig.appUrl + porta +
-                    "/fidor/code";
-    window.location = oauth_url;  
+    gotoOAuth();
   }
 
   $scope.errors = [];
@@ -57,8 +61,15 @@ angular.module('deposit', ['api'])
         $scope.isSubmitting = false;
         console.log(err);
         console.log(res);
-        if (err) {
-         $scope.errors.push(err);
+        if (err && err.status == 401) {
+          gotoOAuth();
+        }
+        if (err && err.response) {
+          if (err.response.message) {
+            $scope.errors.push(err.response.message);
+          } else {
+            $scope.errors.push(err.response);
+          }
         }
         if (res) {
          $scope.errors.push(res);

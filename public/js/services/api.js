@@ -14,7 +14,10 @@ angular.module('api', [])
           callback(null, response);
         })
         .error(function(response, status, headers) {
-          callback(response);
+          callback({
+            status: status,
+            response: response
+          });
         });
     },
     /*
