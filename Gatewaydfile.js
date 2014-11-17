@@ -10,6 +10,6 @@
       });
        
       gatewayd.server.use('/', fidorPlugin.router);
-      //gatewayd.processes.add(fidorPlugin.processes.outToAstropay);
+      gatewayd.processes.add(fidorPlugin.processes.fidor_incoming);
     }
 
