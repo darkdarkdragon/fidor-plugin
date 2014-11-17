@@ -16,18 +16,6 @@ angular.module('gatewaydFidorBridge', [
 .config(['$routeProvider',
   function($routeProvider) {
     $routeProvider.
-      // when('/get-quote', {
-      //   controller: 'QuoteCtrl',
-      //   templateUrl: 'views/quote_form.html'
-      // }).
-      // when('/sender-details', {
-      //   controller: 'PaymentCtrl',
-      //   templateUrl: 'views/payment.html'
-      // }).
-      // when('/go-to-bank', {
-      //   controller: 'FinalizeCtrl',
-      //   templateUrl: 'views/quote.html'
-      // }).
       when('/deposit', {
         controller: 'DepositCtrl',
         templateUrl: 'views/deposit.html'

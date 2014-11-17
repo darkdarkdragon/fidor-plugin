@@ -18,7 +18,7 @@ PaymentsController.prototype = {
 
 /* jshint -W074 */
   deposit: function (request, response) {
-    console.log('----------- PaymentsController::deposit');
+    console.log('PaymentsController::deposit');
     var _this = this;
     var depositRequest = request.body;
     console.log(depositRequest);

@@ -1,6 +1,5 @@
 'use strict';
 
-console.log('+++++++++++++++++++ fidor incoming start');
 
 var SqlMqWorker = require('sql-mq-worker');
 var gatewayd = require(process.env.GATEWAYD_PATH || __dirname+'/../../../');
@@ -9,7 +8,6 @@ var ExternalTransaction = gatewayd.data.models.externalTransactions;
 var GatewayTransaction = gatewayd.data.models.gatewayTransactions;
 var RippleTransaction = gatewayd.data.models.rippleTransactions;
 
-console.log('+++++++++++++++++++ fidor incoming start');
 
 var worker = new SqlMqWorker({
   Class: ExternalTransaction,
@@ -18,9 +16,8 @@ var worker = new SqlMqWorker({
     status: 'invoice'
   }},
   job: function(deposit, callback) {
-    console.log('+++++++++++++++++++ fidor incoming job');
-    console.log(deposit);
     //logger.info('deposits:invoice:popped', deposit.toJSON());
+    console.info('deposits:invoice:popped', deposit.toJSON());
     GatewayTransaction.find({ where: {
       external_transaction_id: deposit.id
     }})
